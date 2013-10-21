@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//test 1
-
+//bpvtybk
 namespace placdarm
 {
     class Hod
     {
-        //--------------- ВЫВОД ПОЛ ------------------------------------
+        //--------------- ВЫВОД ПОЛЯ ------------------------------------
         public static void Disp(char[,] M)
         {
             for (int iy = 0; iy < M.GetLength(0); iy++)

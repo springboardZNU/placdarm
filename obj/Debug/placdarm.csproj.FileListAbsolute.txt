@@ -1,0 +1,83 @@
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\bin\Debug\placdarm.exe.config
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\bin\Debug\placdarm.exe
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\bin\Debug\placdarm.pdb
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\obj\Debug\placdarm.Form1.resources
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\obj\Debug\placdarm.exe
+c:\users\администратор\documents\visual studio 2012\Projects\placdarm\placdarm\obj\Debug\placdarm.pdb
+D:\5131\Плацдарм\placdarm\bin\Debug\placdarm.exe.config
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.exe
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.pdb
+D:\5131\Плацдарм\placdarm\bin\Debug\placdarm.exe
+D:\5131\Плацдарм\placdarm\bin\Debug\placdarm.pdb
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.Form1.resources
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+D:\5131\Плацдарм\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.exe.config
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.exe
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.pdb
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.exe
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.pdb
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.Form1.resources
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+C:\Users\Fluffo4ka\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\bin\Debug\placdarm.exe.config
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.exe
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.pdb
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\bin\Debug\placdarm.exe
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\bin\Debug\placdarm.pdb
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.Form1.resources
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+E:\UNIVER\ZNU\3 курс\Програмная инженерия\Курсак\Плацдарм\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.exe.config
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.exe
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.pdb
+C:\Users\Admin\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.exe
+C:\Users\Admin\Desktop\Плацдарм\placdarm\bin\Debug\placdarm.pdb
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.Form1.resources
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+C:\Users\Admin\Desktop\Плацдарм\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+H:\Плацдарм\placdarm\bin\Debug\placdarm.exe.config
+H:\Плацдарм\placdarm\obj\Debug\placdarm.exe
+H:\Плацдарм\placdarm\obj\Debug\placdarm.pdb
+G:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe.config
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.exe
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.pdb
+G:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe
+G:\Плацдарм_new\placdarm\bin\Debug\placdarm.pdb
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.Form1.resources
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+G:\Плацдарм_new\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+E:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe.config
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.exe
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.pdb
+E:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe
+E:\Плацдарм_new\placdarm\bin\Debug\placdarm.pdb
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.Form1.resources
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+E:\Плацдарм_new\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+H:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe.config
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.exe
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.pdb
+H:\Плацдарм_new\placdarm\bin\Debug\placdarm.exe
+H:\Плацдарм_new\placdarm\bin\Debug\placdarm.pdb
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.Form1.resources
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+H:\Плацдарм_new\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\bin\Debug\placdarm.exe.config
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.exe
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.pdb
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.Form1.resources
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.Properties.Resources.resources
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\bin\Debug\placdarm.exe
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\bin\Debug\placdarm.pdb
+C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
