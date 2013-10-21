@@ -81,3 +81,12 @@ C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.csproj.G
 C:\Users\Admin\Desktop\Плацдарм_new\placdarm\bin\Debug\placdarm.exe
 C:\Users\Admin\Desktop\Плацдарм_new\placdarm\bin\Debug\placdarm.pdb
 C:\Users\Admin\Desktop\Плацдарм_new\placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+E:\WORK\Game\Placdarm\bin\Debug\placdarm.exe.config
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.exe
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.pdb
+E:\WORK\Game\Placdarm\bin\Debug\placdarm.exe
+E:\WORK\Game\Placdarm\bin\Debug\placdarm.pdb
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.csprojResolveAssemblyReference.cache
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.Form1.resources
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.Properties.Resources.resources
+E:\WORK\Game\Placdarm\obj\Debug\placdarm.csproj.GenerateResource.Cache

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//bpvtybk
+//using System.Windows.Forms; //для месседж бокс
+
 namespace placdarm
 {
     class Hod
@@ -86,25 +87,25 @@ namespace placdarm
                 Add(M, y + 2, x + 2, 'x'); //3
                 Add(M, y + 2, x, 'x'); //4
                 Add(M, y, x - 2, 'x'); //5
-                Add(M, y - 2, x - 2, 'x'); //6                
+                Add(M, y - 2, x - 2, 'x'); //6    
+
+                // БОЙ ГЕНЕРАЛА 
+                if (ProvBoyGeneral(M, y, x, -1, -1))  VudelenieFiguruBoy(M, y - 1, x - 1); // проверяет ВОЗМОЖНОСТЬ ПОБИТЬ генералом и выделяет жертву
+                if (ProvBoyGeneral(M, y, x, -1, 0)) VudelenieFiguruBoy(M, y - 1, x);
+                if (ProvBoyGeneral(M, y, x, 0, 1)) VudelenieFiguruBoy(M, y, x + 1);
+                if (ProvBoyGeneral(M, y, x, 1, 1)) VudelenieFiguruBoy(M, y + 1, x + 1);
+                if (ProvBoyGeneral(M, y, x, 1, 0)) VudelenieFiguruBoy(M, y + 1, x);
+                if (ProvBoyGeneral(M, y, x, 0, -1)) VudelenieFiguruBoy(M, y, x - 1); 
             }
-
-            // БОЙ ГЕНЕРАЛА 
-            if (ProvBoyGeneral(M, y, x, -1, -1)) VudelenieFiguruBoy(M, y - 1, x - 1); // проверяет ВОЗМОЖНОСТЬ ПОБИТЬ генералом и выделяет жертву
-            if (ProvBoyGeneral(M, y, x, -1, 0)) VudelenieFiguruBoy(M, y - 1, x);
-            if (ProvBoyGeneral(M, y, x, 0, 1)) VudelenieFiguruBoy(M, y, x + 1);
-            if (ProvBoyGeneral(M, y, x, 1, 1)) VudelenieFiguruBoy(M, y + 1, x + 1);
-            if (ProvBoyGeneral(M, y, x, 1, 0)) VudelenieFiguruBoy(M, y + 1, x);
-            if (ProvBoyGeneral(M, y, x, 0, -1)) VudelenieFiguruBoy(M, y, x - 1);
-
         }
         //-----------------ПРОВЕРКА ВОЗМОЖНОСТИ ПОБИТЬ ГЕНЕРАЛУ------------------
         private static bool ProvBoyGeneral(char[,] M, int y, int x, int ky, int kx)  // kx, ky это коэфициэнт
         {
             if (('q' == M[y, x] && VPole(M, y + ky, x + kx) && M[y + ky, x + kx] == 'b') || ('z' == M[y, x] && VPole(M, y + ky, x + kx) && M[y + ky, x + kx] == 'w')) // фигура противоположного цвета и не генерал
             {
-                int kolvoVokrug = KolvoElem(M, y + ky, x + kx);
-                if (kolvoVokrug == 20 || kolvoVokrug == 1) return true; // фигура не больше двух, в проверке на тройку не нуждается               
+                //int kolvoVokrug = KolvoElem(M, y + ky, x + kx);
+                //if (kolvoVokrug == 20 || kolvoVokrug == 1) return true; // фигура не больше двух, в проверке на тройку не нуждается               
+                if (KolvoElemGeneral(M, y + ky, x + kx)) return true; // фигура не больше двух, в проверке на тройку не нуждается  
             }
 
             return false;
@@ -519,17 +520,23 @@ namespace placdarm
             if (M[y, x] == 'z') { M[y, x] = 'Z'; return; }
         }
         //-----------------ПРОВЕРКА ОДИНАКОВОСТИ ФИГУРЫ С УЧЕТОМ ГЕНЕРАЛА------------------
-        private static bool ProvOdinakov(char[,] M, int x, int y, int kx, int ky)  // kx, ky это коэфициэнт
+        private static bool ProvOdinakov(char[,] M, int y, int x, int ky, int kx)  // kx, ky это коэфициэнт
         {
-            if (
-                (VMassive(M, y + ky, x + kx)) &&
-                ((M[y + ky, x + kx] == M[y, x]) ||                   //фигура одинаковая
-                (M[y, x] == 'w' && M[y + ky, x + kx] == 'q') || //пешка и генерал белые
-                (M[y, x] == 'q' && M[y + ky, x + kx] == 'w') || // генерал и пешка белые
-                (M[y, x] == 'b' && M[y + ky, x + kx] == 'z') || //пешка и генерал черные
-                (M[y, x] == 'z' && M[y + ky, x + kx] == 'b'))   // генерал и пешка черные
+            if (VMassive(M, y + ky, x + kx) && VMassive(M, y, x))
+            { 
+                if(  
+                (M[y + ky, x + kx] == M[y, x]) ||                   //фигура одинаковая
+
+                ((M[y, x] == 'w' || M[y, x] == 'q' || M[y, x] == 'a' || M[y, x] == 'A') && //фигура белая/под боем белая
+                (M[y + ky, x + kx] == 'w' || M[y + ky, x + kx] == 'q' || M[y + ky, x + kx] == 'a' || M[y + ky, x + kx] == 'A')) ||
+
+                ((M[y, x] == 'b' || M[y, x] == 'z' || M[y, x] == 'c' || M[y, x] == 'C') && //фигура черная/под боем черная
+                (M[y + ky, x + kx] == 'b' || M[y + ky, x + kx] == 'z' || M[y + ky, x + kx] == 'c' || M[y + ky, x + kx] == 'C'))
+
                 ) return true;
+            }
             else return false;
+            return false;
         }
         //-----------------ПОИСК ТРОЙКИ --------------------------------
         public static bool Troyka(char[,] M, int y, int x)
@@ -541,12 +548,12 @@ namespace placdarm
             mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y; //сохранение координат первого элемента
             // сохраняем координаты остальных элементов, которые окружают его
 
-            if (ProvOdinakov(M, x, y, -1, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y - 1; }
-            if (ProvOdinakov(M, x, y, 0, -1)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y - 1; }
-            if (ProvOdinakov(M, x, y, 1, 0)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y; }
-            if (ProvOdinakov(M, x, y, 1, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y + 1; }
-            if (ProvOdinakov(M, x, y, 0, 1)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y + 1; }
-            if (ProvOdinakov(M, x, y, -1, 0)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y; }
+            if (ProvOdinakov(M, y, x, -1, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, -1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, 0, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y; }
+            if (ProvOdinakov(M, y, x, 1, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 0, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y; }
 
             if (kolvo == 0 || kolvo > 2) return false; // не тройка, кличество фишек рядом не подходит
             if (mas_temp[2, 0] == -1) // третий элемент не заполнен, находим его и заполняем
@@ -558,37 +565,37 @@ namespace placdarm
                 y = mas_temp[1, 1];
 
                 // сохраняем координаты остальных элементов, которые окружают его, проверяя не одинаковый элемент с первой ячейкой
-                if (ProvOdinakov(M, x, y, -1, -1))
+                if (ProvOdinakov(M, y, x, -1, -1))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y - 1)) //если координаты не совпадают с первым элементом
                     { mas_temp[2, 0] = x - 1; mas_temp[2, 1] = y - 1; }
                 }
-                if (ProvOdinakov(M, x, y, 0, -1))
+                if (ProvOdinakov(M, y, x, -1, 0))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x && mas_temp[0, 1] == y - 1))
                     { mas_temp[2, 0] = x; mas_temp[2, 1] = y - 1; }
                 }
-                if (ProvOdinakov(M, x, y, 1, 0))
+                if (ProvOdinakov(M, y,x,0,1))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y))
                     { mas_temp[2, 0] = x + 1; mas_temp[2, 1] = y; }
                 }
-                if (ProvOdinakov(M, x, y, 1, 1))
+                if (ProvOdinakov(M, y,x,1,1))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y + 1))
                     { mas_temp[2, 0] = x + 1; mas_temp[2, 1] = y + 1; }
                 }
-                if (ProvOdinakov(M, x, y, 0, 1))
+                if (ProvOdinakov(M, y,x,1,0))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x && mas_temp[0, 1] == y + 1))
                     { mas_temp[2, 0] = x; mas_temp[2, 1] = y + 1; }
                 }
-                if (ProvOdinakov(M, x, y, -1, 0))
+                if (ProvOdinakov(M, y,x,0,-1))
                 {
                     kolvo++;
                     if (!(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y))
@@ -601,9 +608,9 @@ namespace placdarm
             {
                 // проводим проверку остальных частей тройки что бы не было множества
                 int proverka_na_mnozhestvo = 0;
-                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[0, 0], mas_temp[0, 1]);
-                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[1, 0], mas_temp[1, 1]);
-                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[2, 0], mas_temp[2, 1]);
+                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[0, 1], mas_temp[0, 0]);
+                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[1, 1], mas_temp[1, 0]);
+                proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[2, 1], mas_temp[2, 0]);
 
                 if (proverka_na_mnozhestvo != 4) return false; //скопление 
                 if (    // проверяем на нелинейность
@@ -643,12 +650,12 @@ namespace placdarm
         //----------ВОЗМОЖНЫЕ ХОДЫ ТРОЙКИ---------------------------------------------
         private static void MovTroyka(char[,] M, int y, int x)
         {
-            BoyTroyka(M, y, x, 0, -1); // в лево
-            BoyTroyka(M, y, x, 0, 1); // в право
-            BoyTroyka(M, y, x, -1, -1); // в левый верхний
-            BoyTroyka(M, y, x, -1, 0);  // в правый верхний
+            BoyTroyka(M, y, x, -1, -1); // в лево
+            BoyTroyka(M, y, x, -1, 0); // в право
+            BoyTroyka(M, y, x, 0, 1); // в левый верхний
+            BoyTroyka(M, y, x, 1, 1);  // в правый верхний
             BoyTroyka(M, y, x, 1, 0); // в левый нижний
-            BoyTroyka(M, y, x, 1, 1);  // в правый нижний            
+            BoyTroyka(M, y, x, 0, -1);  // в правый нижний            
         }
         private static void BoyTroyka(char[,] M, int y, int x, int ky, int kx)
         {
@@ -671,10 +678,11 @@ namespace placdarm
                 if (!Troyka(M, iy, ix)) VudelenieFiguruBoy(M, iy, ix); //если бьет не тройку
                 else
                 {
-                    if (!ProvOdinakov(M, ix, iy, kx, ky))     // если бьет не сильное звено
+                    if (!ProvOdinakov(M, iy, ix, ky, kx))     // если бьет не сильное звено
                     {
-                        if (ProvOdinakov(M, x, y, kx_protiv, ky_protiv))      // если бьет сильным звеном  
-                        { VudelenieFiguruBoy(M, iy, ix); }
+                       // MessageBox.Show("слабое звено"); 
+                        if (ProvOdinakov(M, y, x, ky_protiv, kx_protiv))      // если бьет сильным звеном  
+                        { VudelenieFiguruBoy(M, iy, ix);}// MessageBox.Show("сильным звеном"); }
                     }
                 }
             }
@@ -683,13 +691,13 @@ namespace placdarm
         private static bool Vrag(char[,] M, int y, int x, int iy, int ix)
         {
             if (!VMassive(M, iy, ix)) return false; //проверка выхода за границы
-            if (M[y, x] == 'w' || M[y, x] == 'q')   //если белые фигуры, то, соперника фигуры будут такими:
+            if (M[y, x] == 'w' || M[y, x] == 'q' )   //если белые фигуры, то, соперника фигуры будут такими:
             {
-                if (M[iy, ix] == 'b' || M[iy, ix] == 'z') return true;
+                if (M[iy, ix] == 'b' || M[iy, ix] == 'z' || M[y, x] == 'c' || M[y, x] == 'C') return true;
             }
             if (M[y, x] == 'b' || M[y, x] == 'z')
             {
-                if (M[iy, ix] == 'w' || M[iy, ix] == 'q') return true;
+                if (M[iy, ix] == 'w' || M[iy, ix] == 'q' || M[y, x] == 'a' || M[y, x] == 'A') return true;
             }
             return false; // напротив находится фигура не соперника
         }
@@ -702,19 +710,46 @@ namespace placdarm
             if (M[y, x] == 'z') M[y, x] = 'C';
         }
         //----------------!!!!!!-ВСОМОГАТЕЛЬНАЯ ФУНКЦИЯ ТРОЙКИ ПОДСЧЕТА КОЛ-ВО ОКРУЖАЮЩИХ ЭЛЕМЕНТОВ---------------
-        private static int KolvoElem(char[,] M, int x, int y)
+        private static int KolvoElem(char[,] M, int y, int x)
         {
             int kolvo = 0;
-            if (ProvOdinakov(M, x, y, -1, -1)) kolvo++;
-            if (ProvOdinakov(M, x, y, 0, -1)) kolvo++;
-            if (ProvOdinakov(M, x, y, 1, 0)) kolvo++;
-            if (ProvOdinakov(M, x, y, 1, 1)) kolvo++;
-            if (ProvOdinakov(M, x, y, 0, 1)) kolvo++;
-            if (ProvOdinakov(M, x, y, -1, 0)) kolvo++;
+            if (ProvOdinakov(M, y, x, -1, -1)) kolvo++;
+            if (ProvOdinakov(M, y, x, -1, 0)) kolvo++;
+            if (ProvOdinakov(M, y, x, 0, 1)) kolvo++;
+            if (ProvOdinakov(M, y, x, 1, 1)) kolvo++;
+            if (ProvOdinakov(M, y, x, 1, 0)) kolvo++;
+            if (ProvOdinakov(M, y, x, 0, -1)) kolvo++;
 
-            if (kolvo > 2) kolvo = 10;  // проверка на кучу, если куча, то вводится недопустимое число
-            if (kolvo < 1) kolvo = 20;  // если ноль, то вводится недопустимое число равное 20 для хода генерала
+            if (kolvo > 2) kolvo = 10;  // проверка на кучу, если куча, то вводится недопустимое число            
             return kolvo;
+        }
+        //-------------ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ПРОВЕРКИ БОЯ ГЕНЕРАЛА 1-2 ФИГУР ---------------
+        private static bool KolvoElemGeneral(char[,] M, int y, int x)
+        {
+            int kolvo = 0; //количество элементов вокруг выбраной клетки
+
+            //массив элементов частей тройки, размер 6(максимально возможное колво) на 2(координаты) 
+            int[,] mas_temp = { { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 } };
+            mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y; //сохранение координат первого элемента
+            // сохраняем координаты остальных элементов, которые окружают его
+
+            if (ProvOdinakov(M, y, x, -1, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, -1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, 0, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y; }
+            if (ProvOdinakov(M, y, x, 1, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 0, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y; }
+
+            if (kolvo > 2) return false; //  кличество фишек рядом не подходит
+            if (mas_temp[2, 0] != -1) return false;// больше двух фишек            
+            // проводим проверку элемента на большее колво чем 2 фишки рядом
+            int proverka_na_mnozhestvo = 0;
+            proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[0, 1], mas_temp[0, 0]);
+            proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[1, 1], mas_temp[1, 0]);
+
+            if (proverka_na_mnozhestvo > 2) return false;
+            else return true;
+                
         }
 
         //-----------------РАСЧЕТ ВОЗМОЖНЫХ ХОДОВ --------------------------------
