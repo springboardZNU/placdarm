@@ -11,6 +11,7 @@ namespace placdarm
         ///  <summary>
         /// Главная точка входа для приложения.
         ///  </summary>
+		/// ОЛОЛО трололо.
         [STAThread]
         static void Main()
         {
