@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Windows.Forms; //для месседж бокс MessageBox.Show("тест");
+using System.Windows.Forms; //для месседж бокс MessageBox.Show("тест");
 
 namespace placdarm
 {
@@ -547,6 +547,7 @@ namespace placdarm
         //-----------------ПОИСК ТРОЙКИ --------------------------------
         public static bool Troyka(char[,] M, int y, int x)
         {
+            int temp_y = y, temp_x = x;
             int kolvo = 0; //количество элементов вокруг выбраной клетки
 
             //массив элементов частей тройки, размер 6(максимально возможное колво) на 2(координаты) 
@@ -611,15 +612,170 @@ namespace placdarm
 
                 if (kolvo == 0 || kolvo > 2) return false; //  не тройка, вокруг больше или меньше элементов                               
             }
-            if (mas_temp[2, 0] != -1)
-            {
+            //-------------------ТРОЙКА ИЛИ ЧЕТВЕРКА ИЛИ СКОПЛЕНИЕ
+            if (mas_temp[2, 0] != -1 ) 
+            {               
                 // проводим проверку остальных частей тройки что бы не было множества
                 int proverka_na_mnozhestvo = 0;
                 proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[0, 1], mas_temp[0, 0]);
                 proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[1, 1], mas_temp[1, 0]);
                 proverka_na_mnozhestvo = proverka_na_mnozhestvo + KolvoElem(M, mas_temp[2, 1], mas_temp[2, 0]);
 
-                if (proverka_na_mnozhestvo != 4) return false; //скопление 
+                if (proverka_na_mnozhestvo != 4 && proverka_na_mnozhestvo != 5) return false; //четверка или тройка иначе скопление 
+
+//-*-*-*-*-*-*-*-*-*-*-*-*-*-ЧЕТВЕРКА или большое скопление
+
+                if (proverka_na_mnozhestvo == 5) 
+                {                    
+                    // проверяем третий элемент на соединение с 4м
+                    kolvo = 0; //количество элементов вокруг выбраной клетки
+
+                    //!!!!!!!!!!! меняется передаваемые параметры!!!
+                    x = mas_temp[2, 0]; // заносим в Х и У кординаты третьего элемента
+                    y = mas_temp[2, 1];
+
+                    // сохраняем координаты остальных элементов, которые окружают его, проверяя не одинаковый элемент с первой ячейкой
+                    if (ProvOdinakov(M, y, x, -1, -1))
+                    {
+                        kolvo++;
+                        if (        //если координаты не совпадают с первым элементом и вторым
+                            !(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y - 1) &&
+                            !(mas_temp[1, 0] == x - 1 && mas_temp[1, 1] == y - 1)
+                            )
+                        { mas_temp[3, 0] = x - 1; mas_temp[3, 1] = y - 1; } //заносим их в четвертый слот
+                    }
+                    if (ProvOdinakov(M, y, x, -1, 0))
+                    {
+                        kolvo++;
+                        if (
+                            !(mas_temp[0, 0] == x && mas_temp[0, 1] == y - 1) &&
+                            !(mas_temp[1, 0] == x && mas_temp[1, 1] == y - 1)
+                            )
+                        { mas_temp[3, 0] = x; mas_temp[3, 1] = y - 1; }
+                    }
+                    if (ProvOdinakov(M, y, x, 0, 1))
+                    {
+                        kolvo++;
+                        if (
+                            !(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y) &&
+                            !(mas_temp[1, 0] == x + 1 && mas_temp[1, 1] == y)
+                            )
+                        { mas_temp[3, 0] = x + 1; mas_temp[3, 1] = y; }
+                    }
+                    if (ProvOdinakov(M, y, x, 1, 1))
+                    {
+                        kolvo++;
+                        if (
+                            !(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y + 1) &&
+                            !(mas_temp[1, 0] == x + 1 && mas_temp[1, 1] == y + 1)
+                            )
+                        { mas_temp[3, 0] = x + 1; mas_temp[3, 1] = y + 1; }
+                    }
+                    if (ProvOdinakov(M, y, x, 1, 0))
+                    {
+                        kolvo++;
+                        if (
+                            !(mas_temp[0, 0] == x && mas_temp[0, 1] == y + 1) &&
+                            !(mas_temp[1, 0] == x && mas_temp[1, 1] == y + 1)
+                            )
+                        { mas_temp[3, 0] = x; mas_temp[3, 1] = y + 1; }
+                    }
+                    if (ProvOdinakov(M, y, x, 0, -1))
+                    {
+                        kolvo++;
+                        if (
+                            !(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y) &&
+                            !(mas_temp[1, 0] == x - 1 && mas_temp[1, 1] == y)
+                            )
+                        { mas_temp[3, 0] = x - 1; mas_temp[3, 1] = y; }
+                    }
+
+                    if (kolvo == 0 || kolvo > 2) return false; //  не тройка, вокруг больше или меньше элементов 
+
+                    //ПРОВЕРЯЕМ второй элемент на соединение с 4м
+                    if (mas_temp[3, 0] == -1) // четвертый элемент не заполнен, находим его и заполняем
+                    {
+                        //берем второй элемент тройки и проверяем что вокруг
+                        kolvo = 0; //количество элементов вокруг выбраной клетки
+
+                        //!!!!!!!!!!! меняется передаваемые параметры!!!
+                        x = mas_temp[1, 0]; // заносим в Х и У кординаты второго элемента
+                        y = mas_temp[1, 1];
+
+                        // сохраняем координаты остальных элементов, которые окружают его, проверяя не одинаковый элемент с первой ячейкой
+                        if (ProvOdinakov(M, y, x, -1, -1))
+                        {
+                            kolvo++;
+                            if (        //если координаты не совпадают с первым элементом и вторым
+                                !(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y - 1) &&
+                                !(mas_temp[2, 0] == x - 1 && mas_temp[2, 1] == y - 1)
+                                )
+                            { mas_temp[3, 0] = x - 1; mas_temp[3, 1] = y - 1; } //заносим их в четвертый слот
+                        }
+                        if (ProvOdinakov(M, y, x, -1, 0))
+                        {
+                            kolvo++;
+                            if (
+                                !(mas_temp[0, 0] == x && mas_temp[0, 1] == y - 1) &&
+                                !(mas_temp[2, 0] == x && mas_temp[2, 1] == y - 1)
+                                )
+                            { mas_temp[3, 0] = x; mas_temp[3, 1] = y - 1; }
+                        }
+                        if (ProvOdinakov(M, y, x, 0, 1))
+                        {
+                            kolvo++;
+                            if (
+                                !(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y) &&
+                                !(mas_temp[2, 0] == x + 1 && mas_temp[2, 1] == y)
+                                )
+                            { mas_temp[3, 0] = x + 1; mas_temp[3, 1] = y; }
+                        }
+                        if (ProvOdinakov(M, y, x, 1, 1))
+                        {
+                            kolvo++;
+                            if (
+                                !(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y + 1) &&
+                                !(mas_temp[2, 0] == x + 1 && mas_temp[2, 1] == y + 1)
+                                )
+                            { mas_temp[3, 0] = x + 1; mas_temp[3, 1] = y + 1; }
+                        }
+                        if (ProvOdinakov(M, y, x, 1, 0))
+                        {
+                            kolvo++;
+                            if (
+                                !(mas_temp[0, 0] == x && mas_temp[0, 1] == y + 1) &&
+                                !(mas_temp[2, 0] == x && mas_temp[2, 1] == y + 1)
+                                )
+                            { mas_temp[3, 0] = x; mas_temp[3, 1] = y + 1; }
+                        }
+                        if (ProvOdinakov(M, y, x, 0, -1))
+                        {
+                            kolvo++;
+                            if (
+                                !(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y) &&
+                                !(mas_temp[2, 0] == x - 1 && mas_temp[2, 1] == y)
+                               )
+                            { mas_temp[3, 0] = x - 1; mas_temp[3, 1] = y; }
+                        }
+
+                        if (kolvo == 0 || kolvo > 2) return false; //  не тройка, вокруг больше или меньше элементов                               
+                    }
+                    if (KolvoElem(M, mas_temp[3, 1], mas_temp[3, 0]) == 1) 
+                        MessageBox.Show("вероятно четверка")
+                            ;
+                    //if(mas_temp[3, 0] !=-1)
+
+                    //записываем четвертый элемент
+                    // проверка на множество
+
+                    //прочие проверки
+                }
+
+                //-*-*-*-*-*-*-*-*-*-*-*-*-*- 
+
+
+                if (proverka_na_mnozhestvo != 4) return false;
+
                 if (    // проверяем на нелинейность
                     (mas_temp[0, 1] == mas_temp[1, 1] && mas_temp[1, 1] == mas_temp[2, 1]) ||//!=Y1==Y2==Y3
                     (mas_temp[0, 0] == mas_temp[1, 0] && mas_temp[1, 0] == mas_temp[2, 0]) //!=X1==X2==X3
@@ -641,9 +797,8 @@ namespace placdarm
                     }
                     else { return true; } //-----НАЙДЕНА ТРОЙКА----------
                 }
+            }        
 
-                //return true;
-            }
 
             return false;
         }
