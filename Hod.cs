@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Windows.Forms; //для месседж бокс
+//using System.Windows.Forms; //для месседж бокс MessageBox.Show("тест");
 
 namespace placdarm
 {
@@ -103,9 +103,15 @@ namespace placdarm
         {
             if (('q' == M[y, x] && VPole(M, y + ky, x + kx) && M[y + ky, x + kx] == 'b') || ('z' == M[y, x] && VPole(M, y + ky, x + kx) && M[y + ky, x + kx] == 'w')) // фигура противоположного цвета и не генерал
             {
-                //int kolvoVokrug = KolvoElem(M, y + ky, x + kx);
-                //if (kolvoVokrug == 20 || kolvoVokrug == 1) return true; // фигура не больше двух, в проверке на тройку не нуждается               
-                if (KolvoElemGeneral(M, y + ky, x + kx)) return true; // фигура не больше двух, в проверке на тройку не нуждается  
+
+                if (KolvoElemGeneral(M, y + ky, x + kx))
+                {
+                    if (Troyka(M, y, x))
+                    {
+                        if (ProverkaTroykaSamovos(M, y, x, y + ky, x + kx)) return false; // фигура не больше двух, в проверке на тройку не нуждается  
+                    }
+                    else return true;
+                }
             }
 
             return false;
@@ -561,6 +567,7 @@ namespace placdarm
                 //берем второй элемент тройки и проверяем что вокруг
                 kolvo = 0; //количество элементов вокруг выбраной клетки
 
+                //!!!!!!!!!!! меняется передаваемые параметры!!!
                 x = mas_temp[1, 0]; // заносим в Х и У кординаты второго элемента
                 y = mas_temp[1, 1];
 
@@ -675,18 +682,116 @@ namespace placdarm
             }
             if (Vrag(M, y, x, iy, ix))
             {                           // проверка на самовостановление
-                if (!Troyka(M, iy, ix)) VudelenieFiguruBoy(M, iy, ix); //если бьет не тройку
+                if (!Troyka(M, iy, ix))
+                {
+                    if(!ProverkaTroykaSamovos(M,y,x, iy, ix)) //!!!!!!!!!проверка на самовостановление
+                    VudelenieFiguruBoy(M, iy, ix); //если бьет не тройку
+                }
                 else
                 {
                     if (!ProvOdinakov(M, iy, ix, ky, kx))     // если бьет не сильное звено
                     {
-                       // MessageBox.Show("слабое звено"); 
+                        // MessageBox.Show("слабое звено"); 
                         if (ProvOdinakov(M, y, x, ky_protiv, kx_protiv))      // если бьет сильным звеном  
-                        { VudelenieFiguruBoy(M, iy, ix);}// MessageBox.Show("сильным звеном"); }
+                        {
+                            //!!!!!!!!!проверка на самовостановление
+                            if (!ProverkaTroykaSamovos(M, y, x, iy, ix)) VudelenieFiguruBoy(M, iy, ix); 
+                        }
                     }
                 }
             }
         }
+        //---------------------ПРОВЕРКА НА САМОВОСТАНОВЛЕНИЕ ТРОЙКИ-----------------------------------
+        private static bool ProverkaTroykaSamovos(char[,] M, int y, int x, int iy, int ix)
+        {
+            int tmp_y = y;
+            int tmp_x = x;
+            //создаем пустой массив для проверки тройки 
+            char[,] temp = new char[,] { 
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                  {'.','.','.','.','.','.','.','.','.','.'},
+                                };
+            //находим все координаты тройки
+            int kolvo = 0; //количество элементов вокруг выбраной клетки
+
+            //массив элементов частей тройки, размер 6(максимально возможное колво) на 2(координаты) 
+            int[,] mas_temp = { { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 } };
+            mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y; //сохранение координат первого элемента
+            // сохраняем координаты остальных элементов, которые окружают его
+
+            if (ProvOdinakov(M, y, x, -1, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, -1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y - 1; }
+            if (ProvOdinakov(M, y, x, 0, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y; }
+            if (ProvOdinakov(M, y, x, 1, 1)) { kolvo++; mas_temp[kolvo, 0] = x + 1; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 1, 0)) { kolvo++; mas_temp[kolvo, 0] = x; mas_temp[kolvo, 1] = y + 1; }
+            if (ProvOdinakov(M, y, x, 0, -1)) { kolvo++; mas_temp[kolvo, 0] = x - 1; mas_temp[kolvo, 1] = y; }
+            
+            if (mas_temp[2, 0] == -1) // третий элемент не заполнен, находим его и заполняем
+            {
+                //берем второй элемент тройки и проверяем что вокруг
+                kolvo = 0; //количество элементов вокруг выбраной клетки
+
+                x = mas_temp[1, 0]; // заносим в Х и У кординаты второго элемента
+                y = mas_temp[1, 1];
+
+                // сохраняем координаты остальных элементов, которые окружают его, проверяя не одинаковый элемент с первой ячейкой
+                if (ProvOdinakov(M, y, x, -1, -1))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y - 1)) //если координаты не совпадают с первым элементом
+                    { mas_temp[2, 0] = x - 1; mas_temp[2, 1] = y - 1; }
+                }
+                if (ProvOdinakov(M, y, x, -1, 0))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x && mas_temp[0, 1] == y - 1))
+                    { mas_temp[2, 0] = x; mas_temp[2, 1] = y - 1; }
+                }
+                if (ProvOdinakov(M, y, x, 0, 1))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y))
+                    { mas_temp[2, 0] = x + 1; mas_temp[2, 1] = y; }
+                }
+                if (ProvOdinakov(M, y, x, 1, 1))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x + 1 && mas_temp[0, 1] == y + 1))
+                    { mas_temp[2, 0] = x + 1; mas_temp[2, 1] = y + 1; }
+                }
+                if (ProvOdinakov(M, y, x, 1, 0))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x && mas_temp[0, 1] == y + 1))
+                    { mas_temp[2, 0] = x; mas_temp[2, 1] = y + 1; }
+                }
+                if (ProvOdinakov(M, y, x, 0, -1))
+                {
+                    kolvo++;
+                    if (!(mas_temp[0, 0] == x - 1 && mas_temp[0, 1] == y))
+                    { mas_temp[2, 0] = x - 1; mas_temp[2, 1] = y; }
+                }                                            
+            }
+            //------все координаты тройки найдены, заносим их в временный массив
+            Add(temp,mas_temp[0,1],mas_temp[0,0], 'w');
+            Add(temp, mas_temp[1, 1], mas_temp[1, 0], 'w');
+            Add(temp, mas_temp[2, 1], mas_temp[2, 0], 'w');
+            //------делаем ход
+            char tmp = temp[tmp_y, tmp_x];            
+            temp[iy, ix] = tmp; //замена побитой фишки или становление ее на пустое место
+            temp[tmp_y, tmp_x] = '.'; //на место походившей устанавливаем пустое поле
+
+            if (!Troyka(temp, iy, ix)) return false; //проверка стала ли после хода тройка тройкой
+            else {  return true; }//самовостановление
+        }
+
         //-----------------Проверка клетки на наличие соперника !!! не хватает проверки на сильное звено--------------------------------------------
         private static bool Vrag(char[,] M, int y, int x, int iy, int ix)
         {
@@ -761,8 +866,7 @@ namespace placdarm
             General(M, y, x);   // ХОД ГЕНЕРАЛОМ + БОЙ ГЕНЕРАЛОМ
         }
         public static String Click(char[,] M, int y, int x)
-        {
-
+        {            
             if (            // если нажато на не активную фигуру выполняет выделение и расчет хода
                 (M[0, 9] == '0' && (M[y, x] == 'w' || M[y, x] == 'q')) ||  //если ход белых
                 (M[0, 9] == '1' && (M[y, x] == 'b' || M[y, x] == 'z'))  //если ход черных  
@@ -812,6 +916,8 @@ namespace placdarm
                     //-----------------------------------------------
 
                     char tmp = M[Convert.ToInt32(M[0, 8]) - 48, Convert.ToInt32(M[0, 7] - 48)];
+                    if (M[y, x] == 'A') M[2, 9] = '1'; //убит белый генерал
+                    if (M[y, x] == 'C') M[2, 9] = '0';  //убит черный генерал
                     M[y, x] = tmp; //замена побитой фишки или становление ее на пустое место
                     M[Convert.ToInt32(M[0, 8]) - 48, Convert.ToInt32(M[0, 7] - 48)] = '.'; //на место походившей устанавливаем пустое поле
                     //Console.WriteLine("M[" + (Convert.ToInt32(M[0, 8]) - 48)+","+(Convert.ToInt32(M[0, 7]) - 48)+"], tmp = "+tmp);
@@ -833,8 +939,12 @@ namespace placdarm
             {
                 if (M[8, 6] == 'b') if (M[8, 7] == 'b') return "Захват поля, победа черных (2,5 очка)"; ;
             }
+
             if (M[1, 8] == '5') return "Преимущество в пять фигур, победа белых (2 очка)";
             if (M[1, 9] == '5') return "Преимущество в пять фигур, победа черных (2 очка)";
+
+            if (M[2, 9] == '1') return "Убит белый генерал, победа черных (1 очко)";
+            if (M[2, 9] == '0') return "Убит Черный генерал, победа белых (1 очко)";
 
             return "0";
 
@@ -859,6 +969,6 @@ namespace placdarm
 
 //  ХОД
 //  6. перестановка фигур                       - готово
-//  7. проверки победы: занятое поле, убитый генерал, пять очек
-
+//  7. проверки победы: занятое поле, убитый генерал, пять очек  - готово
+ 
 //  8. СМЕНА ФЛАГА ХОДА                         - готово
